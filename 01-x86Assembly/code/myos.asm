@@ -1,6 +1,8 @@
-mov ax,0xb800
-mov ds,ax
-mov byte [0x00],'a'
-mov byte [0x02],'s'
-mov byte [0x04],'m'
-jmp $
+mov ax,0x30
+mov dx,0xc0
+mov ax,dx
+
+times 502 db 0
+
+db 0x55
+db 0xAA
