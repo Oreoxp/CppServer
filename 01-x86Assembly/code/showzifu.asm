@@ -1,5 +1,5 @@
-mov ax,0xb800
-mov ds,ax
+mov ax,0xb800          ; 0xb800 显存地址
+mov ds,ax              ;将显存段地址放到 ds 中，后续只使用偏移就行
 mov byte [0x00],'h'
 mov byte [0x01],0x70
 mov byte [0x02],'e'
