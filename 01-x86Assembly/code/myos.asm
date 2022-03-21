@@ -1,6 +1,6 @@
 mov ax,0x30
 mov dx,0xc0
-mov ax,dx
+add ax,dx
 
 times 502 db 0
 
