@@ -1,0 +1,47 @@
+     1                                  
+     2                                  ;show 65535 
+     3                                  init:
+     4 00000000 B800B8                      mov ax,0xb800          ; 0xb800 显存地址
+     5 00000003 8EC0                        mov es,ax              ;将显存段地址放到 es 中，后续只使用 es+偏移 就行
+     6                                  
+     7 00000005 31D2                    xor dx,dx                  ;异或置 0
+     8 00000007 B8FFFF                  mov ax,65535
+     9 0000000A BB0A00                  mov bx,10
+    10 0000000D F7F3                    div bx
+    11                                  
+    12 0000000F 31D2                    xor dx,dx 
+    13 00000011 F7F3                    div bx
+    14 00000013 80C230                  add dl,0x30
+    15 00000016 2688160000              mov byte [es:0x00],dl
+    16 0000001B 26C606010070            mov byte [es:0x01],0x70
+    17                                  
+    18 00000021 31D2                    xor dx,dx 
+    19 00000023 F7F3                    div bx
+    20 00000025 80C230                  add dl,0x30
+    21 00000028 2688160200              mov byte [es:0x02],dl
+    22 0000002D 26C606030070            mov byte [es:0x03],0x70
+    23                                  
+    24 00000033 31D2                    xor dx,dx 
+    25 00000035 F7F3                    div bx
+    26 00000037 80C230                  add dl,0x30
+    27 0000003A 2688160400              mov byte [es:0x04],dl
+    28 0000003F 26C606050070            mov byte [es:0x05],0x70
+    29                                  
+    30 00000045 31D2                    xor dx,dx 
+    31 00000047 F7F3                    div bx
+    32 00000049 80C230                  add dl,0x30
+    33 0000004C 2688160600              mov byte [es:0x06],dl
+    34 00000051 26C606070070            mov byte [es:0x07],0x70
+    35                                  
+    36 00000057 31D2                    xor dx,dx 
+    37 00000059 F7F3                    div bx
+    38 0000005B 80C230                  add dl,0x30
+    39 0000005E 2688160800              mov byte [es:0x08],dl
+    40 00000063 26C606090070            mov byte [es:0x09],0x70
+    41                                  
+    42 00000069 0000000000              number db 0,0,0,0,0
+    43                                  
+    44                                  current:
+    45 0000006E 00<rep 190h>                times 510-(current-init) db 0
+    46                                  
+    47 000001FE 55AA                    db 0x55,0xaa 
