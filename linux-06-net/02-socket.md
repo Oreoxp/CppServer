@@ -358,11 +358,50 @@ OK，这个著名的设计，给我们带来了很大的麻烦，这个麻烦就
 
 
 
+## 三、UDP 协议介绍
+
+​		UDP协议分为首部字段和数据字段，其中首部字段只占用 8 个字节，分别是个占用两个字节的源端口、目的端口、长度和检验和。具体协议字段信息如下：  
+![udp协议](./markdownimage/udp头.png)
+
+* 长度：UDP 报文的整个大小，最小为 8 个字节（仅为首部) 
+* 检验和：在进行检验和计算时，会添加一个伪首部一起进行运算。伪首部（占用12个字节）为：4个字节的源IP地址、4个字节的目的IP地址、1个字节的0、一个字节的数字17、以及占用2个字节UDP长度。这个伪首部不是报文的真正首部，只是引入为了计算校验和。相对于IP协议的只计算首部，UDP检验和会把首部和数据一起进行校验。接收端进行的校验和与UDP报文中的校验和相与，如果无差错应该全为1。如果有误，则将报文丢弃或者发给应用层、并附上差错警告。
+
+### 实现
+
+另外两个API接口：
+
+```c++
+ssize_t sendto(int sockfd, const void *buf, size_t len, int flags, const struct sockaddr *dest_addr, socklen_t addrlen);
+
+ssize_t recvfrom(int sockfd, void *buf, size_t len, int    flags,struct sockaddr *src_addr, socklen_t *addrlen);
+```
+
+* dest_addr : 是接收端 的IP 地址和端口信息；
+* src_addr : 是发送端的 IP 地址和端口信息；
+
+### UDP 传输应用层需注意的问题
+
+1. 数据包确认机制
+
+2. 数据包重发机制
+
+3. 尽量不发送大于路径 **MTU **的数据包
+
+4. 处理数据包重排
+
+*MTU   **最大传输单元（Maximum Transmission Unit）是指通信协议的某一层上面所能通过的最大数据包大小（以字节为单位）**，<u>接收端</u>规定得到最小 udp 包大小，当大于此值时 udp 将分包。
+
+•<u>单个 UDP 传输的最大内容  1472 节因为 IP 数据报的长度限制 1500，但由于不同的网络中转设备设置的 MTU 值并不相同。 Internet 上的标准 MTU 值为 576 字节，建议在进行 Internet 的 UDP 编程时。最好将 UDP 的数据长度控制在 548 字节 (576-8-20) 以内。</u>
+
+### UDP 分片原理
+
+1. **对应用层的数据进行分片，以满足 MTU 传输的要求**
+
+2. **在发送端给分片编号，在接收端重组分片，解决乱序数据包重组的问题**
+
+![udp分片设计重点](./markdownimage/udp分片设计重点.png)
 
 
 
-
-
-
-
+![udp分片设计重点](./markdownimage/软件分层数据校验.png)
 
