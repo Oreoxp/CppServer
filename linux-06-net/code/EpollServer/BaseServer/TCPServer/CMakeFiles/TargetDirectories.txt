@@ -1,0 +1,3 @@
+/mnt/hgfs/test/17.socket/EpollServer/BaseServer/TCPServer/CMakeFiles/rebuild_cache.dir
+/mnt/hgfs/test/17.socket/EpollServer/BaseServer/TCPServer/CMakeFiles/edit_cache.dir
+/mnt/hgfs/test/17.socket/EpollServer/BaseServer/TCPServer/CMakeFiles/TCPServer.dir
